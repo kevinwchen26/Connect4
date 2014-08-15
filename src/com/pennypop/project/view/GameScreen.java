@@ -18,7 +18,7 @@ import com.pennypop.project.model.ConnectButton;
 /**
  * This is where you screen code will go, any UI should be in here
  * 
- * @author Richard Taylor
+ * @author Kevin Chen
  */
 public class GameScreen implements Screen {
 
@@ -68,9 +68,7 @@ public class GameScreen implements Screen {
 		TextureAtlas buttonAtlas = new TextureAtlas(
 				Gdx.files.internal("buttons.pack"));
 		skin.addRegions(buttonAtlas);
-		TextButtonStyle textButtonStyle = new TextButtonStyle();
-		textButtonStyle.font = font;
-		textButtonStyle.up = skin.getDrawable("button_grey");
+
 		Board board = Board.getBoard(game);
 		Table table = new Table(skin);
 		for (int row = 0; row < board.getRows(); row++) {

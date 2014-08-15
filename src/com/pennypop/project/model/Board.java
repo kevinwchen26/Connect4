@@ -154,6 +154,7 @@ public class Board {
 		TextButtonStyle textButtonStyle = new TextButtonStyle();
 		textButtonStyle.font = font;
 		textButtonStyle.up = skin.getDrawable("button_grey");
+
 		Board.pieces = new ConnectButton[numRows][numColumns];
 		for (int i = 0; i < this.numRows; i++) {
 			for (int j = 0; j < this.numColumns; j++) {
@@ -207,6 +208,7 @@ public class Board {
 		int row = updatedButton.getMrow();
 		int col = updatedButton.getMcol();
 		updatedButton.fill();
+		updatedButton.setDisabled(true);
 		pieces[row][col] = updatedButton;
 	}
 

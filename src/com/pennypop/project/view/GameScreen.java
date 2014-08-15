@@ -1,19 +1,23 @@
 package com.pennypop.project.view;
 
+import java.util.ArrayList;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
-import com.pennypop.project.controller.ConnectButtonListener;
 import com.pennypop.project.controller.GameRunner;
 import com.pennypop.project.model.Board;
 import com.pennypop.project.model.ConnectButton;
+import com.pennypop.project.model.Player;
 
 /**
  * This is where you screen code will go, any UI should be in here
@@ -26,6 +30,7 @@ public class GameScreen implements Screen {
 	private SpriteBatch spriteBatch;
 
 	private GameRunner game;
+	private Table root;
 
 	public GameScreen(GameRunner game) {
 		this.game = game;
@@ -45,6 +50,7 @@ public class GameScreen implements Screen {
 		Gdx.gl.glClearColor(1, 1, 1, 1);
 
 		stage.act(delta);
+		//Table.drawDebug(stage);
 		stage.draw();
 	}
 
@@ -79,10 +85,24 @@ public class GameScreen implements Screen {
 			}
 			table.row();
 		}
-		table.setFillParent(true);
-
-		stage.addActor(table);
-
+		ArrayList<Player> players = game.getPlayers();
+		root = new Table(skin).debug();
+		LabelStyle labelStyle = new LabelStyle(font, Color.BLACK);
+		Label currentPlayer = new Label(game.getCurrentPlayer().getColor()
+				+ "'s turn", labelStyle);
+		root.add(currentPlayer).center();
+		root.row();
+		Label p_1 = new Label("Player " + players.get(0).getColor(), labelStyle);
+		Label p_1_score = new Label(" " + players.get(0).getScore(), labelStyle);
+		root.add(p_1);
+		root.add(p_1_score);
+		root.add(table);
+		Label p_2 = new Label("Player " + players.get(1).getColor(), labelStyle);
+		Label p_2_score = new Label(" " + players.get(1).getScore(), labelStyle);
+		root.add(p_2);
+		root.add(p_2_score);
+		root.setFillParent(true);
+		stage.addActor(root);
 		Gdx.input.setInputProcessor(stage);
 	}
 

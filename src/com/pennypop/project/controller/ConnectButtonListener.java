@@ -5,8 +5,10 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
+import com.badlogic.gdx.scenes.scene2d.ui.Window.WindowStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.pennypop.project.model.Board;
 import com.pennypop.project.model.ConnectButton;
@@ -45,12 +47,15 @@ public class ConnectButtonListener extends ClickListener {
 				currentPlayer.getColor(), textButtonStyle);
 		if (updatedButton != null) {
 			board.replaceButton(updatedButton);
-			board.checkWin(updatedButton);
+			if (board.checkWin(updatedButton)) {
+				game.currentPlayerWin();
+				board.initializeBoard();
+
+			}
 		}
-		game.nextPlayer();
+		GameRunner.nextPlayer();
 
 		game.setScreen(new GameScreen(game));
 
 	}
-
 }

@@ -10,8 +10,9 @@ public class Player {
 		this.score = 0;
 	}
 
-	public void addWin() {
+	public Player addWin() {
 		this.score = this.score + 1;
+		return this;
 	}
 
 	public String getColor() {

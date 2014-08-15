@@ -83,13 +83,13 @@ public class Board {
 		int numDownLeft = countPieces(newPiece, 1, -1, 0);
 		int numDownRight = countPieces(newPiece, 1, 1, 0);
 		boolean win = false;
-		if (numUp + numDown >= this.connectN)
+		if (numUp + numDown + 1 >= this.connectN)
 			win = true;
-		if (numRight + numLeft >= this.connectN)
+		if (numRight + numLeft + 1 >= this.connectN)
 			win = true;
-		if (numUpLeft + numDownRight >= this.connectN)
+		if (numUpLeft + numDownRight + 1 >= this.connectN)
 			win = true;
-		if (numUpRight + numDownLeft >= this.connectN)
+		if (numUpRight + numDownLeft + 1 >= this.connectN)
 			win = true;
 		if (win) {
 			System.out.println(newPiece.getMcolor() + " WON");
@@ -151,7 +151,7 @@ public class Board {
 	/**
 	 * Initialized the game board by filling all of the spaces with null values
 	 */
-	private void initializeBoard() {
+	public void initializeBoard() {
 		BitmapFont font = new BitmapFont();
 		Skin skin = new Skin();
 		TextureAtlas buttonAtlas = new TextureAtlas(
@@ -219,7 +219,6 @@ public class Board {
 	}
 
 	public ConnectButton get(int row, int col) {
-		// TODO Auto-generated method stub
 		return pieces[row][col];
 	}
 }

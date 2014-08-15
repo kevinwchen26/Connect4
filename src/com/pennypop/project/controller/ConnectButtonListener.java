@@ -2,6 +2,8 @@ package com.pennypop.project.controller;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -25,6 +27,9 @@ public class ConnectButtonListener extends ClickListener {
 
 	@Override
 	public void clicked(InputEvent event, float x, float y) {
+		Sound button_click = Gdx.audio.newSound(Gdx.files
+				.internal("button_click.wav"));
+		button_click.play();
 		ConnectButton button = (ConnectButton) event.getListenerActor();
 		Board board = Board.getBoard(game);
 		int row = button.getMrow();
@@ -49,6 +54,12 @@ public class ConnectButtonListener extends ClickListener {
 			board.replaceButton(updatedButton);
 			if (board.checkWin(updatedButton)) {
 				game.currentPlayerWin();
+				Sound fanfare = Gdx.audio.newSound(Gdx.files
+						.internal("victory_fanfare.mp3"));
+				fanfare.play();
+				WindowStyle style = new WindowStyle();
+				style.titleFont = font;
+
 				board.initializeBoard();
 
 			}

@@ -3,51 +3,58 @@ package com.pennypop.project.view;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 
 public class WelcomeScreen implements Screen {
 
+	BitmapFont font;
+	Skin skin;
+	TextureAtlas buttonAtlas;
+	private TextButtonStyle buttonStyle;
+	private Game game;
 	private final Stage stage;
 	private final SpriteBatch spriteBatch;
-	private BitmapFont font;
-	private Skin skin;
-	private TextureAtlas buttonAtlas;
-	private TextButtonStyle textButtonStyle;
-	private TextButton button;
-	private Game game;
 
 	public WelcomeScreen(final Game game) {
+
 		this.game = game;
 		spriteBatch = new SpriteBatch();
 		stage = new Stage(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(),
 				false, spriteBatch);
+
 		font = new BitmapFont();
 		skin = new Skin();
+		Table table = new Table(skin);
 		buttonAtlas = new TextureAtlas(Gdx.files.internal("buttons.pack"));
 		skin.addRegions(buttonAtlas);
-		textButtonStyle = new TextButtonStyle();
-		textButtonStyle.font = font;
-		textButtonStyle.up = skin.getDrawable("button_green");
-		button = new TextButton("Start Game", textButtonStyle);
-		stage.addActor(button);
+		buttonStyle = new TextButtonStyle();
 
-		button.addListener(new ChangeListener() {
+		buttonStyle.font = font;
+		buttonStyle.up = skin.getDrawable("button_grey");
+
+		TextButton startButton = new TextButton("Start Game", buttonStyle);
+		startButton.addListener(new ChangeListener() {
 
 			@Override
-			public void changed(ChangeEvent arg0, Actor arg1) {
-				game.setScreen(new MainScreen(game));
+			public void changed(ChangeEvent event, Actor actor) {
+				GameScreen screen = new GameScreen();
+				game.setScreen(screen);
 			}
 
 		});
+
+		table.add(startButton);
+		table.setFillParent(true);
+		stage.addActor(table);
 	}
 
 	@Override
@@ -74,6 +81,7 @@ public class WelcomeScreen implements Screen {
 
 	@Override
 	public void render(float delta) {
+		Gdx.gl.glClearColor(1, 1, 1, 1);
 
 		stage.act(delta);
 		stage.draw();
@@ -88,6 +96,8 @@ public class WelcomeScreen implements Screen {
 
 	@Override
 	public void show() {
+		Gdx.gl.glClearColor(1, 1, 1, 1);
+
 		Gdx.input.setInputProcessor(stage);
 	}
 

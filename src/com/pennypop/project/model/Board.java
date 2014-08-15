@@ -74,14 +74,14 @@ public class Board {
 	 * @return true if the piece wins the game, false otherwise
 	 */
 	public boolean checkWin(ConnectButton newPiece) {
-		int numUp = countPieces(newPiece, -1, 0);
-		int numDown = countPieces(newPiece, 1, 0);
-		int numRight = countPieces(newPiece, 0, 1);
-		int numLeft = countPieces(newPiece, 0, -1);
-		int numUpLeft = countPieces(newPiece, -1, -1);
-		int numUpRight = countPieces(newPiece, -1, 1);
-		int numDownLeft = countPieces(newPiece, 1, -1);
-		int numDownRight = countPieces(newPiece, 1, 1);
+		int numUp = countPieces(newPiece, -1, 0, 0);
+		int numDown = countPieces(newPiece, 1, 0, 0);
+		int numRight = countPieces(newPiece, 0, 1, 0);
+		int numLeft = countPieces(newPiece, 0, -1, 0);
+		int numUpLeft = countPieces(newPiece, -1, -1, 0);
+		int numUpRight = countPieces(newPiece, -1, 1, 0);
+		int numDownLeft = countPieces(newPiece, 1, -1, 0);
+		int numDownRight = countPieces(newPiece, 1, 1, 0);
 		boolean win = false;
 		if (numUp + numDown >= this.connectN)
 			win = true;
@@ -92,7 +92,7 @@ public class Board {
 		if (numUpRight + numDownLeft >= this.connectN)
 			win = true;
 		if (win) {
-			System.out.println(newPiece.getColor() + " WON");
+			System.out.println(newPiece.getMcolor() + " WON");
 		}
 		return win;
 
@@ -113,16 +113,18 @@ public class Board {
 	 * @return the number of continous pieces in the given direction that have
 	 *         the same color as the give piece
 	 */
-	private int countPieces(ConnectButton piece, int vertical, int horizontal) {
+	private int countPieces(ConnectButton piece, int vertical, int horizontal,
+			int count) {
 		int row = piece.getMrow();
 		int col = piece.getMcol();
 		if (!checkCoordinates(row + horizontal, col + vertical))
-			return 0;
+			return count;
 		ConnectButton neighbor = this
 				.getPiece(row + horizontal, col + vertical);
-		if (neighbor == null || neighbor.getColor() != piece.getColor())
-			return 0;
-		return countPieces(neighbor, vertical, horizontal) + 1;
+		if (neighbor.getMcolor().equals("")
+				|| !neighbor.getMcolor().equals(piece.getMcolor()))
+			return count;
+		return countPieces(neighbor, vertical, horizontal, count + 1);
 	}
 
 	/**

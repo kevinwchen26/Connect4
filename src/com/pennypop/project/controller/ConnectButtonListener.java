@@ -27,6 +27,7 @@ public class ConnectButtonListener extends ClickListener {
 
 	@Override
 	public void clicked(InputEvent event, float x, float y) {
+		game.removeWinner();
 		Sound button_click = Gdx.audio.newSound(Gdx.files
 				.internal("button_click.wav"));
 		button_click.play();

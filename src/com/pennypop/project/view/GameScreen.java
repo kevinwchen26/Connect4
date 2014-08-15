@@ -12,6 +12,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.pennypop.project.controller.GameRunner;
@@ -50,7 +51,7 @@ public class GameScreen implements Screen {
 		Gdx.gl.glClearColor(1, 1, 1, 1);
 
 		stage.act(delta);
-		//Table.drawDebug(stage);
+		// Table.drawDebug(stage);
 		stage.draw();
 	}
 
@@ -90,6 +91,12 @@ public class GameScreen implements Screen {
 		LabelStyle labelStyle = new LabelStyle(font, Color.BLACK);
 		Label currentPlayer = new Label(game.getCurrentPlayer().getColor()
 				+ "'s turn", labelStyle);
+		if (game.getCurrentWinner() != null) {
+			Label winner = new Label(game.getCurrentWinner().getColor()
+					+ " WINS!", labelStyle);
+			root.add(winner);
+		}
+		root.row();
 		root.add(currentPlayer).center();
 		root.row();
 		Label p_1 = new Label("Player " + players.get(0).getColor(), labelStyle);

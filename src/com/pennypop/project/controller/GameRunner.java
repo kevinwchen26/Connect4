@@ -20,6 +20,7 @@ public class GameRunner extends Game {
 	private static GameRunner game;
 	static Player blue;
 	static Player green;
+	static Player currentWinner = null;
 
 	private static Player currentPlayer;
 
@@ -62,6 +63,7 @@ public class GameRunner extends Game {
 			blue = blue.addWin();
 		else
 			green = green.addWin();
+		currentWinner = currentPlayer;
 	}
 
 	public ArrayList<Player> getPlayers() {
@@ -69,6 +71,15 @@ public class GameRunner extends Game {
 		players.add(blue);
 		players.add(green);
 		return players;
+	}
+
+	public Player getCurrentWinner() {
+		return currentWinner;
+	}
+
+	public void removeWinner() {
+		if (currentWinner != null)
+			currentWinner = null;
 	}
 
 }

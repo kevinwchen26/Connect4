@@ -12,7 +12,6 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.pennypop.project.controller.GameRunner;
@@ -23,6 +22,8 @@ import com.pennypop.project.model.Player;
 /**
  * This is where you screen code will go, any UI should be in here
  * 
+ * Screen for the actual game
+ * 
  * @author Kevin Chen
  */
 public class GameScreen implements Screen {
@@ -31,6 +32,9 @@ public class GameScreen implements Screen {
 	private SpriteBatch spriteBatch;
 
 	private GameRunner game;
+	/**
+	 * Root table containing the scoreboards and the game board
+	 */
 	private Table root;
 
 	public GameScreen(GameRunner game) {
@@ -48,10 +52,8 @@ public class GameScreen implements Screen {
 	public void render(float delta) {
 
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
-		Gdx.gl.glClearColor(1, 1, 1, 1);
 
 		stage.act(delta);
-		// Table.drawDebug(stage);
 		stage.draw();
 	}
 
@@ -76,6 +78,7 @@ public class GameScreen implements Screen {
 				Gdx.files.internal("buttons.pack"));
 		skin.addRegions(buttonAtlas);
 
+		// adds the squares to a table
 		Board board = Board.getBoard(game);
 		Table table = new Table(skin);
 		for (int row = 0; row < board.getRows(); row++) {
@@ -88,7 +91,8 @@ public class GameScreen implements Screen {
 		}
 		ArrayList<Player> players = game.getPlayers();
 		root = new Table(skin).debug();
-		LabelStyle labelStyle = new LabelStyle(font, Color.BLACK);
+		// add labels for the players, their scores, and the winner
+		LabelStyle labelStyle = new LabelStyle(font, Color.WHITE);
 		Label currentPlayer = new Label(game.getCurrentPlayer().getColor()
 				+ "'s turn", labelStyle);
 		if (game.getCurrentWinner() != null) {

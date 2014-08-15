@@ -1,8 +1,20 @@
 package com.pennypop.project.model;
 
+/**
+ * Represents a player
+ * 
+ * @author Kevin
+ *
+ */
 public class Player {
 
+	/**
+	 * The players color
+	 */
 	private String color;
+	/**
+	 * The players score
+	 */
 	private int score;
 
 	public Player(String color) {
@@ -10,6 +22,11 @@ public class Player {
 		this.score = 0;
 	}
 
+	/**
+	 * Increments the players score
+	 * 
+	 * @return updated version of the player object
+	 */
 	public Player addWin() {
 		this.score = this.score + 1;
 		return this;

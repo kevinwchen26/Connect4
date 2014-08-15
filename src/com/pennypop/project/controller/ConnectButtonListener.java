@@ -2,12 +2,10 @@ package com.pennypop.project.controller;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Window.WindowStyle;
@@ -17,10 +15,24 @@ import com.pennypop.project.model.ConnectButton;
 import com.pennypop.project.model.Player;
 import com.pennypop.project.view.GameScreen;
 
+/**
+ * Listener for the Connect4 Buttons that act as squares on the board game;
+ * 
+ * @author Kevin
+ *
+ */
 public class ConnectButtonListener extends ClickListener {
 
+	/**
+	 * Instance of the game
+	 */
 	private GameRunner game;
 
+	/**
+	 * 
+	 * @param game
+	 *            instance of the game
+	 */
 	public ConnectButtonListener(Game game) {
 		this.game = (GameRunner) game;
 	}
@@ -33,7 +45,6 @@ public class ConnectButtonListener extends ClickListener {
 		button_click.play();
 		ConnectButton button = (ConnectButton) event.getListenerActor();
 		Board board = Board.getBoard(game);
-		int row = button.getMrow();
 		int col = button.getMcol();
 		Player currentPlayer = game.getCurrentPlayer();
 		BitmapFont font = new BitmapFont();
@@ -44,16 +55,18 @@ public class ConnectButtonListener extends ClickListener {
 		TextButtonStyle textButtonStyle = new TextButtonStyle();
 		textButtonStyle.font = font;
 
+		// gets the current player and sets the piece to that players color
 		if (currentPlayer.getColor().equals("Blue"))
 			textButtonStyle.checked = skin.getDrawable("button_blue");
 		else
 			textButtonStyle.checked = skin.getDrawable("button_green");
 
+		// tries to insert the piece into the board
 		ConnectButton updatedButton = board.insertPiece(col,
 				currentPlayer.getColor(), textButtonStyle);
-		if (updatedButton != null) {
+		if (updatedButton != null) {// piece was inserted successfully
 			board.replaceButton(updatedButton);
-			if (board.checkWin(updatedButton)) {
+			if (board.checkWin(updatedButton)) { // piece won the game
 				game.currentPlayerWin();
 				Sound fanfare = Gdx.audio.newSound(Gdx.files
 						.internal("victory_fanfare.mp3"));

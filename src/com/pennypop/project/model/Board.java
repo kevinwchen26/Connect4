@@ -9,7 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.pennypop.project.controller.ConnectButtonListener;
 
 /**
- * Represents a connect 4 board
+ * Represents a Connect 4 board
  * 
  * @author Kevin
  *
@@ -30,11 +30,14 @@ public class Board {
 	 * 4.
 	 */
 	private int connectN = 4;
+
+	/**
+	 * Instance of the current game
+	 */
 	private Game game;
 
 	/**
-	 * Contains the pieces that have been inserted. The top right corner of the
-	 * board is 0,0. The bottom left corner is numColumns,numRows
+	 * Contains the squares of the board, pieces[0][0] is the top left square
 	 */
 	private static ConnectButton[][] pieces;
 
@@ -42,7 +45,7 @@ public class Board {
 	 * Constructor for a board with with default size of 7 columns and 6 rows
 	 * with 4 pieces of the same color that need to be lined up.
 	 */
-	public Board(Game game) {
+	private Board(Game game) {
 		this.game = game;
 		initializeBoard();
 
@@ -91,9 +94,7 @@ public class Board {
 			win = true;
 		if (numUpRight + numDownLeft + 1 >= this.connectN)
 			win = true;
-		if (win) {
-			System.out.println(newPiece.getMcolor() + " WON");
-		}
+
 		return win;
 
 	}
@@ -117,11 +118,12 @@ public class Board {
 			int count) {
 		int row = piece.getMrow();
 		int col = piece.getMcol();
+		// check if given coordinates is within the board
 		if (!checkCoordinates(row + horizontal, col + vertical))
 			return count;
-		ConnectButton neighbor = this
-				.getPiece(row + horizontal, col + vertical);
-		if (neighbor.getMcolor().equals("")
+		ConnectButton neighbor = get(row + horizontal, col + vertical);
+		// checks if a neighbor has a piece and if that piece is the same color
+		if (!neighbor.isFilled()
 				|| !neighbor.getMcolor().equals(piece.getMcolor()))
 			return count;
 		return countPieces(neighbor, vertical, horizontal, count + 1);
@@ -144,12 +146,8 @@ public class Board {
 		return true;
 	}
 
-	private ConnectButton getPiece(int i, int j) {
-		return Board.pieces[i][j];
-	}
-
 	/**
-	 * Initialized the game board by filling all of the spaces with null values
+	 * Initialized the game board
 	 */
 	public void initializeBoard() {
 		BitmapFont font = new BitmapFont();
@@ -162,19 +160,17 @@ public class Board {
 		textButtonStyle.up = skin.getDrawable("button_grey");
 
 		Board.pieces = new ConnectButton[numRows][numColumns];
-		for (int i = 0; i < this.numRows; i++) {
-			for (int j = 0; j < this.numColumns; j++) {
-				ConnectButton button = new ConnectButton("", textButtonStyle);
+		for (int row = 0; row < this.numRows; row++) {
+			for (int col = 0; col < this.numColumns; col++) {
+				ConnectButton button = new ConnectButton("", textButtonStyle,
+						row, col, "");// new buttons have no text and no color
 				button.addListener(new ConnectButtonListener(game));
 
-				button.setMrow(i);
-				button.setMcol(j);
-				button.setMcolor("");
-				Board.pieces[i][j] = button;
+				Board.pieces[row][col] = button;
 
 			}
 		}
-		
+
 	}
 
 	/**
@@ -192,10 +188,8 @@ public class Board {
 			return null;
 		for (int row = numRows - 1; row >= 0; row--) {
 			if (!Board.pieces[row][column].isFilled()) {
-				ConnectButton piece = new ConnectButton("", style);
-				piece.setMrow(row);
-				piece.setMcol(column);
-				piece.setMcolor(color);
+				ConnectButton piece = new ConnectButton("", style, row, column,
+						color);
 				piece.setChecked(true);
 				Board.pieces[row][column] = piece;
 				return piece;
@@ -205,12 +199,25 @@ public class Board {
 
 	}
 
+	/**
+	 * Returns the singleton instance of the board
+	 * 
+	 * @param game
+	 *            an instance of the board
+	 * @return an instance of the board
+	 */
 	public static Board getBoard(Game game) {
 		if (board == null)
 			board = new Board(game);
 		return board;
 	}
 
+	/**
+	 * Updates the board with the newly inserted piece
+	 * 
+	 * @param updatedButton
+	 *            the square with the coloring to match the newly inserted piece
+	 */
 	public void replaceButton(ConnectButton updatedButton) {
 		int row = updatedButton.getMrow();
 		int col = updatedButton.getMcol();
@@ -219,6 +226,14 @@ public class Board {
 		pieces[row][col] = updatedButton;
 	}
 
+	/**
+	 * 
+	 * @param row
+	 *            the row of the square
+	 * @param col
+	 *            the column of the square
+	 * @return The square at the given coordinates
+	 */
 	public ConnectButton get(int row, int col) {
 		return pieces[row][col];
 	}

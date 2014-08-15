@@ -13,6 +13,12 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.pennypop.project.controller.GameRunner;
 import com.pennypop.project.controller.StartButtonListener;
 
+/**
+ * Screen with the option of starting the game
+ * 
+ * @author Kevin
+ *
+ */
 public class WelcomeScreen implements Screen {
 
 	BitmapFont font;
@@ -70,7 +76,6 @@ public class WelcomeScreen implements Screen {
 
 	@Override
 	public void render(float delta) {
-		Gdx.gl.glClearColor(1, 1, 1, 1);
 
 		stage.act(delta);
 		stage.draw();
@@ -83,7 +88,6 @@ public class WelcomeScreen implements Screen {
 
 	@Override
 	public void show() {
-		Gdx.gl.glClearColor(1, 1, 1, 1);
 		Gdx.input.setInputProcessor(stage);
 	}
 

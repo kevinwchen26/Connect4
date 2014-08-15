@@ -82,15 +82,19 @@ public class Board {
 		int numUpRight = countPieces(newPiece, -1, 1);
 		int numDownLeft = countPieces(newPiece, 1, -1);
 		int numDownRight = countPieces(newPiece, 1, 1);
+		boolean win = false;
 		if (numUp + numDown >= this.connectN)
-			return true;
+			win = true;
 		if (numRight + numLeft >= this.connectN)
-			return true;
+			win = true;
 		if (numUpLeft + numDownRight >= this.connectN)
-			return true;
+			win = true;
 		if (numUpRight + numDownLeft >= this.connectN)
-			return true;
-		return false;
+			win = true;
+		if (win) {
+			System.out.println(newPiece.getColor() + " WON");
+		}
+		return win;
 
 	}
 
@@ -130,10 +134,10 @@ public class Board {
 	 *            the y coordinates to check
 	 * @return true if the coordinates are within the board, false otherwise
 	 */
-	private boolean checkCoordinates(int x, int y) {
-		if (x < 0 || x >= this.numColumns)
+	private boolean checkCoordinates(int row, int col) {
+		if (col < 0 || col >= this.numColumns)
 			return false;
-		if (y < 0 || y >= this.numRows)
+		if (row < 0 || row >= this.numRows)
 			return false;
 		return true;
 	}

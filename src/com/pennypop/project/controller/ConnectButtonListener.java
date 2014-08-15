@@ -45,8 +45,10 @@ public class ConnectButtonListener extends ClickListener {
 				currentPlayer.getColor(), textButtonStyle);
 		if (updatedButton != null) {
 			board.replaceButton(updatedButton);
+			board.checkWin(updatedButton);
 		}
 		game.nextPlayer();
+
 		game.setScreen(new GameScreen(game));
 
 	}

@@ -4,16 +4,16 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
-import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.pennypop.project.model.Board;
 import com.pennypop.project.model.ConnectButton;
 import com.pennypop.project.model.Player;
 import com.pennypop.project.view.GameScreen;
 
-public class ConnectButtonListener extends ChangeListener {
+public class ConnectButtonListener extends ClickListener {
 
 	private GameRunner game;
 
@@ -22,9 +22,9 @@ public class ConnectButtonListener extends ChangeListener {
 	}
 
 	@Override
-	public void changed(ChangeEvent event, Actor actor) {
-		ConnectButton button = (ConnectButton) actor;
-		Board board = Board.getBoard();
+	public void clicked(InputEvent event, float x, float y) {
+		ConnectButton button = (ConnectButton) event.getListenerActor();
+		Board board = Board.getBoard(game);
 		int row = button.getMrow();
 		int col = button.getMcol();
 		Player currentPlayer = game.getCurrentPlayer();

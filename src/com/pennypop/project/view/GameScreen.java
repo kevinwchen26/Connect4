@@ -71,13 +71,12 @@ public class GameScreen implements Screen {
 		TextButtonStyle textButtonStyle = new TextButtonStyle();
 		textButtonStyle.font = font;
 		textButtonStyle.up = skin.getDrawable("button_grey");
-		Board board = Board.getBoard();
+		Board board = Board.getBoard(game);
 		Table table = new Table(skin);
 		for (int row = 0; row < board.getRows(); row++) {
 			for (int col = 0; col < board.getColumns(); col++) {
 				ConnectButton button = board.get(row, col);
 
-				button.addListener(new ConnectButtonListener(game));
 				table.add(button).width(100).height(100);
 			}
 			table.row();

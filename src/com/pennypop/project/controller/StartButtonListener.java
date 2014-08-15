@@ -1,10 +1,10 @@
 package com.pennypop.project.controller;
 
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.pennypop.project.view.GameScreen;
 
-public class StartButtonListener extends ChangeListener {
+public class StartButtonListener extends ClickListener {
 
 	private GameRunner game;
 
@@ -13,7 +13,7 @@ public class StartButtonListener extends ChangeListener {
 	}
 
 	@Override
-	public void changed(ChangeEvent arg0, Actor arg1) {
+	public void clicked(InputEvent event, float x, float y) {
 		game.setScreen(new GameScreen(game));
 	}
 

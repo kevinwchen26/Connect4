@@ -18,8 +18,8 @@ import com.pennypop.project.view.WelcomeScreen;
 public class GameRunner extends Game {
 
 	private static GameRunner game;
-
-	private ArrayList<Player> players;
+	Player blue;
+	Player green;
 
 	private static Player currentPlayer;
 
@@ -28,11 +28,9 @@ public class GameRunner extends Game {
 	}
 
 	private GameRunner() {
-		Player blue = new Player("Blue");
-		Player green = new Player("Green");
-		players = new ArrayList<Player>();
-		players.add(blue);
-		players.add(green);
+		blue = new Player("Blue");
+		green = new Player("Green");
+
 		currentPlayer = blue;
 	}
 
@@ -41,11 +39,10 @@ public class GameRunner extends Game {
 	}
 
 	public void nextPlayer() {
-		for (Player player : players) {
-			if (player.getColor() != currentPlayer.getColor()) {
-				currentPlayer = player;
-			}
-		}
+		if (currentPlayer.getColor().equals("Blue"))
+			currentPlayer = green;
+		else
+			currentPlayer = blue;
 	}
 
 	public static GameRunner getGame() {

@@ -1,10 +1,12 @@
 package com.pennypop.project.model;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
+import com.pennypop.project.controller.ConnectButtonListener;
 
 /**
  * Represents a connect 4 board
@@ -28,6 +30,7 @@ public class Board {
 	 * 4.
 	 */
 	private int connectN = 4;
+	private Game game;
 
 	/**
 	 * Contains the pieces that have been inserted. The top right corner of the
@@ -39,7 +42,8 @@ public class Board {
 	 * Constructor for a board with with default size of 7 columns and 6 rows
 	 * with 4 pieces of the same color that need to be lined up.
 	 */
-	public Board() {
+	public Board(Game game) {
+		this.game = game;
 		initializeBoard();
 
 	}
@@ -154,6 +158,8 @@ public class Board {
 		for (int i = 0; i < this.numRows; i++) {
 			for (int j = 0; j < this.numColumns; j++) {
 				ConnectButton button = new ConnectButton("", textButtonStyle);
+				button.addListener(new ConnectButtonListener(game));
+
 				button.setMrow(i);
 				button.setMcol(j);
 				button.setMcolor("");
@@ -191,9 +197,9 @@ public class Board {
 
 	}
 
-	public static Board getBoard() {
+	public static Board getBoard(Game game) {
 		if (board == null)
-			board = new Board();
+			board = new Board(game);
 		return board;
 	}
 

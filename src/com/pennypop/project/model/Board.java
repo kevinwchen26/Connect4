@@ -1,5 +1,9 @@
 package com.pennypop.project.model;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 
 /**
@@ -29,7 +33,7 @@ public class Board {
 	 * Contains the pieces that have been inserted. The top right corner of the
 	 * board is 0,0. The bottom left corner is numColumns,numRows
 	 */
-	private ConnectButton[][] pieces;
+	private static ConnectButton[][] pieces;
 
 	/**
 	 * Constructor for a board with with default size of 7 columns and 6 rows
@@ -131,17 +135,30 @@ public class Board {
 	}
 
 	private ConnectButton getPiece(int i, int j) {
-		return this.pieces[i][j];
+		return Board.pieces[i][j];
 	}
 
 	/**
 	 * Initialized the game board by filling all of the spaces with null values
 	 */
 	private void initializeBoard() {
-		this.pieces = new ConnectButton[numRows][numColumns];
+		BitmapFont font = new BitmapFont();
+		Skin skin = new Skin();
+		TextureAtlas buttonAtlas = new TextureAtlas(
+				Gdx.files.internal("buttons.pack"));
+		skin.addRegions(buttonAtlas);
+		TextButtonStyle textButtonStyle = new TextButtonStyle();
+		textButtonStyle.font = font;
+		textButtonStyle.up = skin.getDrawable("button_grey");
+		Board.pieces = new ConnectButton[numRows][numColumns];
 		for (int i = 0; i < this.numRows; i++) {
 			for (int j = 0; j < this.numColumns; j++) {
-				this.pieces[i][j] = null;
+				ConnectButton button = new ConnectButton("", textButtonStyle);
+				button.setMrow(i);
+				button.setMcol(j);
+				button.setMcolor("");
+				Board.pieces[i][j] = button;
+
 			}
 		}
 	}
@@ -157,15 +174,16 @@ public class Board {
 	 */
 	public ConnectButton insertPiece(int column, String color,
 			TextButtonStyle style) {
-		if (!checkCoordinates(0, column) || this.pieces[0][column] != null)
+		if (!checkCoordinates(0, column) || Board.pieces[0][column].isFilled())
 			return null;
 		for (int row = numRows - 1; row >= 0; row--) {
-			if (this.pieces[row][column] != null) {
+			if (!Board.pieces[row][column].isFilled()) {
 				ConnectButton piece = new ConnectButton("", style);
 				piece.setMrow(row);
 				piece.setMcol(column);
 				piece.setMcolor(color);
-				this.pieces[row][column] = piece;
+				piece.setChecked(true);
+				Board.pieces[row][column] = piece;
 				return piece;
 			}
 		}
@@ -177,5 +195,17 @@ public class Board {
 		if (board == null)
 			board = new Board();
 		return board;
+	}
+
+	public void replaceButton(ConnectButton updatedButton) {
+		int row = updatedButton.getMrow();
+		int col = updatedButton.getMcol();
+		updatedButton.fill();
+		pieces[row][col] = updatedButton;
+	}
+
+	public ConnectButton get(int row, int col) {
+		// TODO Auto-generated method stub
+		return pieces[row][col];
 	}
 }

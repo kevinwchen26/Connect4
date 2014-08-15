@@ -7,6 +7,7 @@ public class ConnectButton extends TextButton {
 	private int mrow;
 	private int mcol;
 	private String mcolor;
+	private boolean filled = false;
 
 	public ConnectButton(String text, TextButtonStyle style) {
 		super(text, style);
@@ -38,6 +39,14 @@ public class ConnectButton extends TextButton {
 
 	public void setMcolor(String mcolor) {
 		this.mcolor = mcolor;
+	}
+
+	public void fill() {
+		this.filled = true;
+	}
+
+	public boolean isFilled() {
+		return this.filled;
 	}
 
 }

@@ -1,18 +1,17 @@
 package com.pennypop.project.view;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
-import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.pennypop.project.controller.GameRunner;
+import com.pennypop.project.controller.StartButtonListener;
 
 public class WelcomeScreen implements Screen {
 
@@ -20,11 +19,11 @@ public class WelcomeScreen implements Screen {
 	Skin skin;
 	TextureAtlas buttonAtlas;
 	private TextButtonStyle buttonStyle;
-	private Game game;
-	private final Stage stage;
-	private final SpriteBatch spriteBatch;
+	private GameRunner game;
+	private Stage stage;
+	private SpriteBatch spriteBatch;
 
-	public WelcomeScreen(final Game game) {
+	public WelcomeScreen(GameRunner game) {
 
 		this.game = game;
 		spriteBatch = new SpriteBatch();
@@ -42,15 +41,7 @@ public class WelcomeScreen implements Screen {
 		buttonStyle.up = skin.getDrawable("button_grey");
 
 		TextButton startButton = new TextButton("Start Game", buttonStyle);
-		startButton.addListener(new ChangeListener() {
-
-			@Override
-			public void changed(ChangeEvent event, Actor actor) {
-				GameScreen screen = new GameScreen();
-				game.setScreen(screen);
-			}
-
-		});
+		startButton.addListener(new StartButtonListener(game));
 
 		table.add(startButton);
 		table.setFillParent(true);
@@ -69,8 +60,6 @@ public class WelcomeScreen implements Screen {
 
 	@Override
 	public void pause() {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
@@ -90,14 +79,11 @@ public class WelcomeScreen implements Screen {
 
 	@Override
 	public void resume() {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void show() {
 		Gdx.gl.glClearColor(1, 1, 1, 1);
-
 		Gdx.input.setInputProcessor(stage);
 	}
 

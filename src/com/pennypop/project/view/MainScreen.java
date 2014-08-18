@@ -3,7 +3,6 @@ package com.pennypop.project.view;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -26,10 +25,8 @@ public class MainScreen implements Screen {
 	private TextButton button;
 	private TextButtonStyle textButtonStyle;
 	private Skin skin;
-	private Game game;
 
 	public MainScreen(Game game) {
-		this.game = game;
 		spriteBatch = new SpriteBatch();
 		stage = new Stage(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(),
 				false, spriteBatch);

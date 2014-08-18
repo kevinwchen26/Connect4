@@ -25,13 +25,11 @@ public class WelcomeScreen implements Screen {
 	Skin skin;
 	TextureAtlas buttonAtlas;
 	private TextButtonStyle buttonStyle;
-	private GameRunner game;
 	private Stage stage;
 	private SpriteBatch spriteBatch;
 
 	public WelcomeScreen(GameRunner game) {
 
-		this.game = game;
 		spriteBatch = new SpriteBatch();
 		stage = new Stage(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(),
 				false, spriteBatch);

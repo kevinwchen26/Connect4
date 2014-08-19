@@ -27,6 +27,7 @@ public class ConnectButtonListener extends ClickListener {
 	 * Instance of the game
 	 */
 	private GameRunner game;
+	private BitmapFont font;
 
 	/**
 	 * 
@@ -47,7 +48,7 @@ public class ConnectButtonListener extends ClickListener {
 		Board board = Board.getBoard(game);
 		int col = button.getMcol();
 		Player currentPlayer = game.getCurrentPlayer();
-		BitmapFont font = new BitmapFont();
+		font = new BitmapFont(Gdx.files.internal("font.fnt"), false);
 		Skin skin = new Skin();
 		TextureAtlas buttonAtlas = new TextureAtlas(
 				Gdx.files.internal("buttons.pack"));

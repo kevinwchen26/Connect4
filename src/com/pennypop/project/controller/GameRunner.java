@@ -42,7 +42,6 @@ public class GameRunner extends Game {
 	private GameRunner() {
 		blue = new Player("Blue");
 		green = new Player("Green");
-
 		currentPlayer = blue;
 	}
 

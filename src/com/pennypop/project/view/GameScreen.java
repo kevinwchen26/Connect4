@@ -14,7 +14,10 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.pennypop.project.controller.GameRunner;
+import com.pennypop.project.controller.MenuButtonListener;
 import com.pennypop.project.model.Board;
 import com.pennypop.project.model.ConnectButton;
 import com.pennypop.project.model.Player;
@@ -36,6 +39,10 @@ public class GameScreen implements Screen {
 	 * Root table containing the scoreboards and the game board
 	 */
 	private Table root;
+	private Table table;
+	private BitmapFont font;
+	private Skin skin;
+	private TextureAtlas buttonAtlas;
 
 	public GameScreen(GameRunner game) {
 		this.game = game;
@@ -69,37 +76,37 @@ public class GameScreen implements Screen {
 
 	@Override
 	public void show() {
-		spriteBatch = new SpriteBatch();
-		stage = new Stage(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(),
-				false, spriteBatch);
-		BitmapFont font = new BitmapFont();
-		Skin skin = new Skin();
-		TextureAtlas buttonAtlas = new TextureAtlas(
-				Gdx.files.internal("buttons.pack"));
-		skin.addRegions(buttonAtlas);
+		setupUtils();
 
 		// adds the squares to a table
 		Board board = Board.getBoard(game);
-		Table table = new Table(skin);
-		for (int row = 0; row < board.getRows(); row++) {
-			for (int col = 0; col < board.getColumns(); col++) {
-				ConnectButton button = board.get(row, col);
-
-				table.add(button).width(100).height(100);
-			}
-			table.row();
-		}
-		ArrayList<Player> players = game.getPlayers();
+		table = new Table(skin);
+		addBlankButtons(board);
 		root = new Table(skin).debug();
 		// add labels for the players, their scores, and the winner
-		LabelStyle labelStyle = new LabelStyle(font, Color.WHITE);
+		addScoreboard();
+		root.setFillParent(true);
+		stage.addActor(root);
+		Gdx.input.setInputProcessor(stage);
+	}
+
+	private void setupUtils() {
+		spriteBatch = new SpriteBatch();
+		stage = new Stage(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(),
+				false, spriteBatch);
+		font = new BitmapFont(Gdx.files.internal("font.fnt"), false);
+		skin = new Skin();
+		buttonAtlas = new TextureAtlas(Gdx.files.internal("buttons.pack"));
+		skin.addRegions(buttonAtlas);
+	}
+
+	private void addScoreboard() {
+		ArrayList<Player> players = game.getPlayers();
+
+		LabelStyle labelStyle = new LabelStyle(font, Color.BLACK);
 		Label currentPlayer = new Label(game.getCurrentPlayer().getColor()
 				+ "'s turn", labelStyle);
-		if (game.getCurrentWinner() != null) {
-			Label winner = new Label(game.getCurrentWinner().getColor()
-					+ " WINS!", labelStyle);
-			root.add(winner);
-		}
+		addWinElements(labelStyle);
 		root.row();
 		root.add(currentPlayer).center();
 		root.row();
@@ -112,9 +119,39 @@ public class GameScreen implements Screen {
 		Label p_2_score = new Label(" " + players.get(1).getScore(), labelStyle);
 		root.add(p_2);
 		root.add(p_2_score);
-		root.setFillParent(true);
-		stage.addActor(root);
-		Gdx.input.setInputProcessor(stage);
+	}
+
+	private void addWinElements(LabelStyle labelStyle) {
+		if (game.getCurrentWinner() != null) {
+			Label winner = new Label(game.getCurrentWinner().getColor()
+					+ " WINS!", labelStyle);
+			root.add(winner);
+			TextButtonStyle style = new TextButtonStyle();
+			style.font = font;
+			style.up = skin.getDrawable("button_grey");
+			style.fontColor = Color.BLACK;
+			TextButton mainMenuButton = new TextButton("Menu", style);
+			mainMenuButton.addListener(new MenuButtonListener(game));
+			root.add(mainMenuButton).width(100).height(100);
+
+		}
+	}
+
+	/**
+	 * Adds blank buttons to a board
+	 * 
+	 * @param board
+	 *            the Board object to use as a template
+	 */
+	private void addBlankButtons(Board board) {
+		for (int row = 0; row < board.getRows(); row++) {
+			for (int col = 0; col < board.getColumns(); col++) {
+				ConnectButton button = board.get(row, col);
+
+				table.add(button).width(100).height(100);
+			}
+			table.row();
+		}
 	}
 
 	@Override

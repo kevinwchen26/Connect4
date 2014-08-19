@@ -11,5 +11,6 @@
 	<classpathentry kind="lib" path="libs/gdx.jar"/>
 	<classpathentry kind="lib" path="libs/gdx-natives.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="C:/Users/Kevin/Downloads/gson-2.3.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

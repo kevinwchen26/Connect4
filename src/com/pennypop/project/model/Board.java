@@ -150,7 +150,7 @@ public class Board {
 	 * Initialized the game board
 	 */
 	public void initializeBoard() {
-		BitmapFont font = new BitmapFont();
+		BitmapFont font = new BitmapFont(Gdx.files.internal("font.fnt"), false);
 		Skin skin = new Skin();
 		TextureAtlas buttonAtlas = new TextureAtlas(
 				Gdx.files.internal("buttons.pack"));
